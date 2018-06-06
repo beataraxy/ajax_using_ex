@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使自定义函数加载动态json数据</title>
+    <script src="jquery-2.0.0.min.js"></script>
+    <script>
+
+        <!--第一种方法-->
+
+        function sendAjax() {
+
+            $.ajax({
+                url: 'data.txt',
+                type: 'get',
+                dataType: 'text',
+                data: null,
+                error: function () {
+                    console.log("error");
+                },
+                timeout: function () {
+                    console.log("timeout");
+                },
+                success: function (data) {
+//                    readyStatus=4且status=200
+                    console.log(data);
+                }
+            });
+        }
+//        第二种方法
+
+        function showAge(data) {
+            console.log("name:"+data.name+"  age:"+data.age);
+        }
+        var url="info.js";
+        var script=document.createElement('script');
+
+        script.setAttribute('src',url);
+
+//        加载脚本
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+//        第三种方法：
+
+        var showAge2=function (data) {
+            console.log("name:"+data.name+" age:"+data.age);
+        };
+        $(document).ready(function () {
+            var url='info.js';
+            $.getJSON(url+"?callback=?",showAge2);
+        });
+
+    </script>
+</head>
+<body>
+<input type="button" value="AJAX" onclick="sendAjax()">
+</body>
+</html>
